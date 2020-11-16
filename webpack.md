@@ -15,7 +15,7 @@
 * `awesome-typescript-loader`: 将 TypeScript 转换成 JavaScript，性能优于 ts-loader
 * `sass-loader`: 将SCSS/SASS代码转换成CSS
 * `css-loader`: 加载 CSS，支持模块化、压缩、文件导入等特性
-* `style-loader`: 把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS
+* `style-loader`: 通过\<style\>标签把 css 加载到 DOM 中
 * `postcss-loader`: 扩展 CSS 语法，使用下一代 CSS，可以配合 autoprefixer 插件自动补齐 CSS3 前缀
 * `eslint-loader`: 通过 ESLint 检查 JavaScript 代码
 * `tslint-loader`: 通过 TSLint检查 TypeScript 代码
@@ -100,7 +100,8 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 Webpack 实际上为每个模块创造了一个可以导出和导入的环境，本质上并没有修改 代码的执行逻辑，代码执行顺序与模块加载顺序也完全一致。
 
-> **7. 文件监听原理**
+>  **7. 文件监听原理**
+
 发现源码发生变化时，自动重新构建出新的输出文件
 
 Webpack 开启监听模式，有两种方式：
@@ -248,3 +249,4 @@ module.exports = {
   - 必须是ES6的语法，因为有很多第三方库仍采用 CommonJS 语法，为了充分发挥 Scope hoisting 的作用，需要配置 mainFields 对第三方模块优先采用 jsnext:main 中指向的ES6模块化语法
 - `动态Polyfill`:
   - 建议采用 polyfill-service 只给用户返回需要的polyfill，社区维护。 (部分国内奇葩浏览器UA可能无法识别，但可以降级返回所需全部polyfill)
+
