@@ -54,6 +54,14 @@
   
   ```
 
+* 实现 bind
+
+  ```javascript
+  
+  ```
+
+  
+
 * 在 web worker 中实现轮询
 
   ```javascript

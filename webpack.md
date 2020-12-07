@@ -3,7 +3,7 @@
 > **0. 有哪些常见的 Loader?**
 
 * `row-loader` : 加在原始文件原始内容 (utf-8)
-* `file-loader` : 把文件输出到一个文件夹中，在代码中通过相对 URL 去饮用输出的文件
+* `file-loader` : 把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
 * `url-loader` : 与 file-loader 类似，区别是用户可以设置一个阈值，大于阈值会交给 file-loader 处理，小于阈值时返回文件 base64 形式编码 (处理图片和字体)
 * `source-map-loader`: 加载额外的 Source Map 文件，以方便断点调试
 * `svg-inline-loader`: 将压缩后的 SVG 内容注入代码中
@@ -49,6 +49,7 @@
 `Plugin` 在 plugins 中单独配置，类型为数组，每一项是一个 Plugin 的实例，参数都通过构造函数传入。
 
 > **3. Webpack构建流程**
+
 Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
 
 - `初始化参数`：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数
