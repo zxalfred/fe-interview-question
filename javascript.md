@@ -15,11 +15,73 @@
   - **其他对象**
 
     `Function`, `Arguments`, `Math`, `Date`, `RegExp`, `Error` 等等
+* 一些常见的手写代码
+* 防抖
+  ```javascript
+  function debounce(fn, interval) {
+    let timer
 
-* 继承的实现方式
+    return function(...args) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(this, args)
+      }, interval)
+    }
+  }
+  ```
+
+* 节流
+  ```javascript
+  // 使用计时器
+  function throttle1(fn, interval) {
+    let startTime
+
+    return function(...args) {
+      const nowTime = new Date().valueOf()
+      if (!startTime || (nowTime - startTime) > interval) {
+        fn.apply(this, args)
+        startTime = nowTime
+      }
+    }
+  }
+
+  // 使用 setTimeout
+  function throttle2(fn, interval) {
+    let canRun = true
+    return function(...args) {
+      if (!canRun) return
+      canRun = false
+      setTimeout(() => {
+        fn.apply(this, ...args)
+        canRun = true
+      }, interval)
+    }
+  }
+  ```
+
+* new
+  ```javascript
+    function myNew(func, ...args) {
+      const obj = Object.create(func.prototype)
+      const res = func.apply(obj, args)
+      if (typeof res === 'function' || (typeof res === 'object' && res !== null)) {
+        return res
+      }
+      return obj
+    }
+  ```
+
+* 继承的实现
 
   ```javascript
-  
+  function Super() {
+
+  }
+  function Sub() {
+    Super.call(this)
+  }
+
+  Sub.prototype = Object.create(Super.prototype)
   ```
 
   
