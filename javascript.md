@@ -274,30 +274,25 @@
         constructor() {
           this.deps = new Set()
         }
-
         depend() {
           if (Dep.target) {
             this.deps.add(Dep.target)
           }
         }
-
         notify() {
           this.deps.forEach(w => w.update())
         }
-
         static pushTarget(t) {
           if (this.target) {
             this.stack.push(this.target)
           }
           this.target = t
         }
-
         static popTarget() {
           this.target = this.stack.pop()
         }
       }
 
-      // reactive
       function reactive(o) {
         if (o && typeof o === 'object') {
           Object.keys(o).forEach(k => {
@@ -324,7 +319,6 @@
         }
       }
 
-      // watcher
       class Watcher {
         constructor(effect) {
           this.effect = effect
@@ -339,13 +333,13 @@
         }
       }
 
-      // 测试代码
+      // 测试
       const data = reactive({
         msg: 'aaa',
         test: 'bbb'
       })
 
-      new Watcher(() => {·
+      new Watcher(() => {
         console.log('===> effect', data.msg);
       })
 
