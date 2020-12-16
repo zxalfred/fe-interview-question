@@ -293,7 +293,7 @@
         }
       }
 
-      function reactive(o) {
+      function observe(o) {
         if (o && typeof o === 'object') {
           Object.keys(o).forEach(k => {
             defineReactive(o, k, o[k])
@@ -315,7 +315,7 @@
           }
         })
         if (val && typeof val === 'object') {
-          reactive(val)
+          observe(val)
         }
       }
 
@@ -334,7 +334,7 @@
       }
 
       // 测试
-      const data = reactive({
+      const data = observe({
         msg: 'aaa',
         test: 'bbb'
       })
