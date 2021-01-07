@@ -10,3 +10,33 @@
 7. 在 commit 阶段中，React 会根据前面为各个节点打的 Tag，一次性更新整个 dom 元素。
 
 * `setState` 是同步的还是异步的
+
+
+* react 异步加载
+https://juejin.cn/post/6844904191853494280
+
+* 实现一个 redux
+https://segmentfault.com/a/1190000022462331
+
+  ```javascript
+    function createStore(reducer) {
+      let currentState
+      let currentListener = []
+
+      const getState = () => currentState
+      const subscribe = (listener) => {
+        currentListeners.push(listener)
+      }
+      const dispatch = (action) => {
+        currentState = reducer(currentState, action)
+        currentListeners.forEach(listener => listener())
+      }
+      dispatch({ type: '@@redux/INIT'})
+
+      return {
+        getState,
+        subscribe,
+        dispatch
+      }
+    }
+  ```
