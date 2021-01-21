@@ -52,6 +52,9 @@ class MyPromise {
       }
     }
     const reject = (value) => {
+      if (value instanceof MyPromise) {
+        return value.then(resolve, reject)
+      }
       if (this.status === PENDING) {
         this.status = REJECTED
         this.reason = value
