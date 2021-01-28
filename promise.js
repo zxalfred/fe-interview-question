@@ -48,7 +48,7 @@ class MyPromise {
       if (this.status === PENDING) {
         this.status = FULFILLED
         this.value = value
-        this.onResolvedCallbacks.forEach(fn => fn(value))
+        this.onResolvedCallbacks.forEach(fn => fn())
       }
     }
     const reject = (value) => {
@@ -58,7 +58,7 @@ class MyPromise {
       if (this.status === PENDING) {
         this.status = REJECTED
         this.reason = value
-        this.onRejectedCallbacks.forEach(fn => fn(value))
+        this.onRejectedCallbacks.forEach(fn => fn())
       }
     }
     try {
@@ -131,13 +131,13 @@ class MyPromise {
       return MyPromise.resolve(callback()).then(() => { throw reason })
     })
   }
-
+  // Promise.all([cb(), as[=()]])
   all(values) {
     if (!Array.isArray(values)) {
       const type = typeof values
       return new TypeError(`TypeError: ${type} ${values} is not iterable`)
     }
-    return new Promise((resolve, reject) => {
+    return new MyPromise((resolve, reject) => {
       const resultArr = []
       let orderIndex = 0
       const processResultByKey = (value, index) => {
