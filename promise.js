@@ -51,13 +51,13 @@ class MyPromise {
         this.onResolvedCallbacks.forEach(fn => fn())
       }
     }
-    const reject = (value) => {
-      if (value instanceof MyPromise) {
-        return value.then(resolve, reject)
+    const reject = (reason) => {
+      if (reason instanceof MyPromise) {
+        return reason.then(resolve, reject)
       }
       if (this.status === PENDING) {
         this.status = REJECTED
-        this.reason = value
+        this.reason = reason
         this.onRejectedCallbacks.forEach(fn => fn())
       }
     }
@@ -104,7 +104,7 @@ class MyPromise {
             }
           }, 0);
         })
-        this.onResolvedCallbacks.push(() => {
+        this.onRejectedCallbacks.push(() => {
           setTimeout(() => {
             try {
               const x = onRejected(this.reason)
@@ -150,7 +150,7 @@ class MyPromise {
         const value = values[i]
         if (value && typeof value.then === 'function') {
           value.then(res => {
-            processResultByKey(value, i)
+            processResultByKey(res, i)
           }, reject)
         } else {
           processResultByKey(value, i)
@@ -185,3 +185,5 @@ class MyPromise {
     })
   }
 }
+
+MyPromise.resolve().then(() => {throw 'err'}).catch(err => console.log(err))
