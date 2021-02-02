@@ -184,6 +184,5 @@ class MyPromise {
       reject(reason)
     })
   }
-}
 
-MyPromise.resolve().then(() => {throw 'err'}).catch(err => console.log(err))
+}
