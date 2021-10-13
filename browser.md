@@ -102,3 +102,31 @@ https://zhuanlan.zhihu.com/p/112800700
       }
     }
   ```
+  https://juejin.cn/post/6844904102053281806
+    ```javascript
+      function asyncToGenerator(generatorFunc) {
+        return function() {
+          const gen = generatorFunc.apply(this, arguments)
+          return new Promise((resolve, reject) => {
+            function step(key, arg) {
+              let generatorResult
+              try {
+                generatorResult = gen[key](arg)
+              } catch (error) {
+                return reject(error)
+              }
+              const { value, done } = generatorResult
+              if (done) {
+                return resolve(value)
+              } else {
+                return Promise.resolve(value).then(val => step('next', val), err => step('throw', err))
+              }
+            }
+            step("next")
+          })
+        }
+    }
+
+    ```
+* 垃圾回收
+https://segmentfault.com/a/1190000018605776?utm_source=tag-newest

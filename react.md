@@ -10,7 +10,7 @@
 7. 在 commit 阶段中，React 会根据前面为各个节点打的 Tag，一次性更新整个 dom 元素。
 
 * `setState` 是同步的还是异步的
-
+https://juejin.cn/post/6850418109636050958
 
 * react 异步加载
 https://juejin.cn/post/6844904191853494280

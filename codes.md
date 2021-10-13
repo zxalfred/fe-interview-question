@@ -142,7 +142,7 @@
   * 5. 任务完成后，需要从 doingTasks 中移出
   */
   function limit(count, array, iterateFunc) {
-    const tasks = []
+    const result = []
     const doingTasks = []
     let i = 0
     const enqueue = () => {
@@ -150,13 +150,13 @@
         return Promise.resolve()
       }
       const task = Promise.resolve().then(() => iterateFunc(array[i++]))
-      tasks.push(task)
+      result.push(task)
       const doing = task.then(() => doingTasks.splice(doingTasks.indexOf(doing), 1))
       doingTasks.push(doing)
       const res = doingTasks.length >= count ? Promise.race(doingTasks) : Promise.resolve()
       return res.then(enqueue)
     };
-    return enqueue().then(() => Promise.all(tasks))
+    return enqueue().then(() => Promise.all(result))
   }
   // test
   const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i))
