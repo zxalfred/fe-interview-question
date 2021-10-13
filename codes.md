@@ -90,6 +90,7 @@
         return fn.apply(context, newArgs)
       }
     }
+    newFunc.prototype = undefined // bind 返回函数的 prototype 为 undefined
     return newFunc
   }
   ```
