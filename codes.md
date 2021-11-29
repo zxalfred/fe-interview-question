@@ -159,7 +159,10 @@
     return enqueue().then(() => Promise.all(result))
   }
   // test
-  const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i))
+  const timeout = i => new Promise(resolve => setTimeout(() => {
+    console.log(i)
+    resolve(i)
+  }, i))
   limit(2, [1000, 1000, 1000, 1000], timeout).then((res) => {
     console.log(res)
   })
