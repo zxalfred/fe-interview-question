@@ -131,9 +131,9 @@ class MyPromise {
       return MyPromise.resolve(callback()).then(() => { throw reason })
     })
   }
-  // Promise.all([cb(), as[=()]])
+
   all(values) {
-    if (!Array.isArray(values)) {
+    if (!Symbol.iterator in values) {
       const type = typeof values
       return new TypeError(`TypeError: ${type} ${values} is not iterable`)
     }
