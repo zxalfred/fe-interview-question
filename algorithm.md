@@ -160,3 +160,84 @@
     return result
   };
   ```
+
+  * 字符串处理
+  ```javascript
+  const test1 = "a2[b]a2[b2b2[c]]";
+  // abbabccbcc
+  const test2 = "2[3[c]]a2a";
+  // cccccca2a
+  const test3 = "11[abc][d]3[e2]4";
+  // abcde2e2e24
+
+  const test = (str) => {
+    let leftCount = 0
+    let rightCount = 0
+    let leftIndex = 0
+    let temStr = ''
+    let res = ''
+    let num = ''
+    for(let i = 0; i<str.length; i++) {
+        if(str[i] === '[') {
+            if(leftCount === 0) {
+                leftIndex = i
+            }
+            leftCount++
+        }
+        if(str[i] === ']') {
+            rightCount++
+        }
+        if(leftCount === rightCount) {
+            if(leftCount === 0) {
+                if(!isNaN(Number(str[i]))) {
+                    num += str[i]
+                } else {
+                    res += num + str[i]
+                    num = ''
+                }
+            }else {
+                temStr = str.slice(leftIndex + 1, i)
+                if(num === '') {
+                    res += test(temStr)
+                }else {
+                    res += test(temStr).repeat(Number(num))
+                    num = ''
+                }
+                leftIndex = 0
+                leftCount = 0
+                rightCount = 0
+            }
+        }
+    }
+    return res + num
+  }
+  ```
+
+  * 计算器
+  ```javascript
+   var calculate = function(s) {
+    let stack = [], sign = '+', number = ''
+    for(let index = 0 ; index < s.length || number; index++) {
+        const char = s[index]
+        if (char === ' ') continue
+        if (/\D/.test(char)) {
+            if (sign === '+') {
+                stack.push(Number(number))
+            } else if (sign === '-') {
+                stack.push(-Number(number))
+            } else if (sign === '*') {
+                stack.push(stack.pop() * Number(number))
+            } else {
+                stack.push(stack.pop() / Number(number) | 0)
+            }
+            sign = char
+            number = ''
+        } else {
+            number = number + char
+
+        }
+    }
+    console.log(stack)
+    return stack.reduce((p, v) => p + v)
+  };
+  ```

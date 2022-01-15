@@ -129,4 +129,4 @@ https://zhuanlan.zhihu.com/p/112800700
 
     ```
 * 垃圾回收
-https://segmentfault.com/a/1190000018605776?utm_source=tag-newest
+https://juejin.cn/post/6981588276356317214
