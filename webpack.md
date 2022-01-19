@@ -235,7 +235,9 @@ module.exports = {
 
 > **12.如何优化 Webpack 的构建速度？**
 
-- `多进程压缩`: terser-webpack-plugin 开启 parallel
+- `多进程压缩`:
+  - terser-webpack-plugin 开启 parallel
+  - happypack 插件
 - `提取页面公共资源`:
   - 使用 html-webpack-externals-plugin，将基础包通过CDN引入，不打入 bundle 中
   - 使用 SplitChunksPlugin 进行（公共脚本、基础包、页面公共文件）分离
@@ -244,6 +246,63 @@ module.exports = {
   - babel-loader 开启缓存
   - terser-webpack-plugin 开启缓存
   - 使用 cache-loader
+- `noParse`:
+  - 如果一些第三方模块没有AMD/CommonJS规范版本，可以使用 noParse 来标识这个模块，这样 Webpack 会引入这些模块，但是不进行转化和解析，从而提升 Webpack 的构建性能 ，例如：jquery 、lodash
+  ```javascript
+  //webpack.config.js
+  module.exports = {
+      //...
+      module: {
+          noParse: /jquery|lodash/
+      }
+  }
+  ```
+- `IgnorePlugin`
+  webpack 的内置插件，作用是忽略第三方包指定目录。
+  例如: moment 会将所有本地化内容和核心功能一起打包，我们就可以使用 IgnorePlugin 在打包时忽略本地化内容。
+  ```javascript
+  //webpack.config.js
+  module.exports = {
+      //...
+      plugins: [
+          //忽略 moment 下的 ./locale 目录
+          new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+      ]
+  }
+  ```
+  在使用的时候，如果我们需要指定语言，那么需要我们手动的去引入语言包，例如，引入中文语言包:
+  ```javascript
+  import moment from 'moment';
+  import 'moment/locale/zh-cn';// 手动引入
+  ```
+- `externals`:
+  我们可以将一些JS文件存储在 CDN 上(减少 Webpack打包出来的 js 体积)，在 index.html 中通过 &lt;script&gt; 标签引入，如:
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Document</title>
+  </head>
+  <body>
+      <div id="root">root</div>
+      <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  </body>
+  </html>
+  ```
+  我们希望在使用时，仍然可以通过 import 的方式去引用(如 import $ from 'jquery')，并且希望 webpack 不会对其进行打包，此时就可以配置 externals。
+  ```javascript
+  //webpack.config.js
+  module.exports = {
+      //...
+      externals: {
+          //jquery通过script引入之后，全局中即有了 jQuery 变量
+          'jquery': 'jQuery'
+      }
+  }
+  ```
 - `tree-shaking`:
   - 打包过程中检测工程中没有引用过的模块并进行标记，在资源压缩时将它们从最终的bundle中去掉(只能对ES6 Modlue生效) 开发中尽可能使用ES6 Module的模块，提高tree shaking效率
   - 禁用 babel-loader 的模块依赖解析，否则 Webpack 接收到的就都是转换过的 CommonJS 形式的模块，无法进行 tree-shaking
@@ -253,3 +312,6 @@ module.exports = {
 - `动态Polyfill`:
   - 建议采用 polyfill-service 只给用户返回需要的polyfill，社区维护。 (部分国内奇葩浏览器UA可能无法识别，但可以降级返回所需全部polyfill)
 
+
+## 参考
+1. https://juejin.cn/post/6844904093463347208
