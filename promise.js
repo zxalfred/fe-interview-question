@@ -132,7 +132,7 @@ class MyPromise {
     })
   }
 
-  all(values) {
+  static all(values) {
     if (!Symbol.iterator in values) {
       const type = typeof values
       return new TypeError(`TypeError: ${type} ${values} is not iterable`)
@@ -159,7 +159,7 @@ class MyPromise {
     })
   }
 
-  race(promises) {
+  static race(promises) {
     return new MyPromise((resolve, reject) => {
       for (let i = 0; i < promises.length; i++) {
         const val = promises[i]

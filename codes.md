@@ -96,15 +96,8 @@
   ```
 
 * 深复制
-  ```javascript
-  function structuralClone(obj) {
-    new Promise((resolve) => {
-      const { port1, port2 } = new MessageChannel()
-      port2.onmessage = e => resolve(e.data)
-      port1.postMessage(obj)
-    })
-  }
-  ```
+  见 deepClone 文件
+
 * 柯里化
   ```javascript
   function curry(func) {
