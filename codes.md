@@ -161,6 +161,20 @@
   })
   ```
 
+* 数组 reduce
+  ```javascript
+    Array.prototype.myReduce = function (cb, initialValue) {
+      const array = this//获取数组
+      let acc = initialValue || array[0]//acc相当于pre
+      const startIndex = initialValue ? 0 : 1
+      for (let i = startIndex; i < array.length; i++) {
+        const cur = array[i]
+        acc = cb(acc, cur, i, array)
+      }
+      return acc
+    }
+  ```
+
 * 异步串行｜异步并行执行
   ```javascript
     // 字节面试题，实现一个异步加法
