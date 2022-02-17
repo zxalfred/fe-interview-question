@@ -175,6 +175,38 @@
     }
   ```
 
+* 串行执行 promise
+  ```javascript
+    const promise1 = () => Promise.resolve(1)
+    const promise2 = () => new Promise(resolve => {
+      setTimeout(() => {resolve(2)}, 2000)
+    })
+    const promise3 = () => new Promise(resolve => {
+      setTimeout(() => {resolve(3)}, 3000)
+    })
+
+    function promiseChain(promiseList) {
+      function iterate(promiseList, resolve) {
+        const promise = promiseList.shift()
+        promise().then((v) => {
+          console.log(v)
+          if (promiseList.length) {
+            iterate(promiseList, resolve)
+          } else {
+            resolve()
+          }
+        })
+      }
+
+      return new Promise((resolve) => {
+        iterate(promiseList, resolve)
+      })
+    }
+
+    const promiseList = [promise1, promise2, promise3]
+    promiseChain(promiseList).then(() => {console.log('all promise settled')})
+  ```
+
 * 异步串行｜异步并行执行
   ```javascript
     // 字节面试题，实现一个异步加法

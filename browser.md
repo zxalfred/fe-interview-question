@@ -84,7 +84,7 @@ https://zhuanlan.zhihu.com/p/112800700
         return Promise.resolve(n.value)
       } else {
         return new Promise(resolve => {
-          n.next.then(ret => {
+          Promise.resolve(n.value).then(ret => {
             _r(iter, ret, resolve)
           })
         })
@@ -130,3 +130,23 @@ https://zhuanlan.zhihu.com/p/112800700
     ```
 * 垃圾回收
 https://juejin.cn/post/6981588276356317214
+
+
+* 代码输出
+  ```javascript
+    var length = 10;
+    function fn() {
+    return this.length + 1;
+    }
+    var obj1 = {
+    length: 5,
+      test1: function() {
+        return fn()
+    }
+    }
+    obj1.test2 = fn;
+    obj1.test1.call()
+    obj1.test1()
+    obj1.test2.call()
+    obj1.test2()
+  ```
