@@ -1,6 +1,6 @@
 function useRequest(fn, delay) {
   const [state, setState] = useState({ data: undefined, loading: false, error: undefined})
-  const persistFn = useCallback(fn, [fn])
+  const persistFn = useMemoizedFn(fn)
   const timerRef = useRef()
   const run = useCallback(async (...args) => {
     const timer = timerRef.current
@@ -24,7 +24,7 @@ function useRequest(fn, delay) {
   }
 }
 
-function useMemoizedFn() {
+function useMemoizedFn(fn) {
   const fnRef = useRef(fn)
   fnRef.current = useMemo(() => fn, [fn])
 

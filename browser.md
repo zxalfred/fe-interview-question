@@ -78,8 +78,8 @@ https://zhuanlan.zhihu.com/p/53944576
 https://zhuanlan.zhihu.com/p/112800700
   ```javascript
     function executor(generator, ...args) {
-      const iter = generator(args)
-      const n = iter.next
+      const iter = generator.apply(this, args)
+      const n = iter.next()
       if (n.done) {
         return Promise.resolve(n.value)
       } else {
@@ -96,7 +96,7 @@ https://zhuanlan.zhihu.com/p/112800700
       if (n.done) {
         resolve(n.value)
       } else {
-        n.next.then(ret => {
+        Promise.resolve(n.value).then(ret => {
           _r(iter, ret, resolve)
         })
       }
